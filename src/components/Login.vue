@@ -4,39 +4,19 @@
       <div class="avatar-box">
         <img src="../assets/logo.png" />
       </div>
-      <el-form
-        ref="loginFormRef"
-        class="login-form"
-        :model="loginform"
-        :rules="loginFronRules"
-      >
+      <el-form ref="loginFormRef" class="login-form" :model="loginform" :rules="loginFormRules">
         <!-- 用户名 -->
         <el-form-item prop="username">
-          <el-input
-            class="form-input"
-            v-model="loginform.username"
-            prefix-icon="iconfont icon-user"
-          ></el-input>
+          <el-input class="form-input" v-model="loginform.username" prefix-icon="iconfont icon-user"></el-input>
         </el-form-item>
         <!-- 密码 -->
         <el-form-item prop="password">
-          <el-input
-            class="form-input"
-            v-model="loginform.password"
-            prefix-icon="iconfont icon-3702mima"
-            type="password"
-          ></el-input>
+          <el-input class="form-input" v-model="loginform.password" prefix-icon="iconfont icon-3702mima" type="password"></el-input>
         </el-form-item>
         <!-- 提交按钮 -->
         <el-form-item class="btns form-input">
-          <el-button
-            type="primary"
-            @click="login"
-          >登陆</el-button>
-          <el-button
-            type="info"
-            @click="resetLoginForm"
-          >重置</el-button>
+          <el-button type="primary" @click="login">登陆</el-button>
+          <el-button type="info" @click="resetLoginForm">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -50,7 +30,7 @@ export default {
         username: 'admin',
         password: '123456'
       },
-      loginFronRules: {
+      loginFormRules: { // 表单验证规则
         username: [
           { required: true, message: '请输入用户名称', trigger: 'blur' },
           { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
@@ -63,8 +43,7 @@ export default {
     }
   },
   methods: {
-    resetLoginForm(e) {
-      // console.log(this)
+    resetLoginForm(e) { // 重置表单内容
       this.$refs.loginFormRef.resetFields()
     },
     login() {
