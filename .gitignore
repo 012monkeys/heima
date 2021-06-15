@@ -2,6 +2,7 @@
 node_modules
 /dist
 *.xlsx
+vue_shop_dome
 
 # local env files
 .env.local

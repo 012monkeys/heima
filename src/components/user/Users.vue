@@ -286,7 +286,6 @@ export default {
     // 展示分配角色的对话框
     async setRole(userInfo) {
       this.userInfo = userInfo
-      console.log('🚀 ~ file: Users.vue ~ line 289 ~ setRole ~ userInfo', userInfo)
 
       const { data: res } = await this.$http.get('roles')
       if (res.meta.status !== 200) {
@@ -297,6 +296,7 @@ export default {
       // 在展示对话框之前, 获得所有角色的列表
       this.setRoleDialogVisible = true
     },
+    // 保存分配的角色
     async savaRoleInfo() {
       if (!this.selectedRoleId) {
         return this.$message.error('请选择要分配的角色')
@@ -304,7 +304,6 @@ export default {
       const { data: res } = await this.$http.put(`users/${this.userInfo.id}/role`, {
         rid: this.selectedRoleId
       })
-      console.log('🚀 ~ file: Users.vue ~ line 307 ~ savaRoleInfo ~ this.selectedRoleId', this.selectedRoleId)
       if (res.meta.status !== 200) {
         return this.$message.error('失败')
       }
@@ -312,7 +311,7 @@ export default {
       this.getUserList()
       this.setRoleDialogVisible = false
     },
-    // 关闭权限分配对话框的时候
+    // 关闭权限分配对话框的重置参数
     setRoleDialogClosed() {
       this.selectedRoleId = ''
       this.userInfo = {}

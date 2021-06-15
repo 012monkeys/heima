@@ -78,7 +78,7 @@
     </el-dialog>
 
     <!-- 修改角色权限名称 -->
-    <el-dialog title="提示修改用户" :visible.sync="reviseUserDialogVisible" width="30%" @close="reviseUserDialogClosed">
+    <el-dialog title="提示修改用户" :visible.sync="reviseUserDialogVisible" width="30%"  :close-on-click-modal="false">
       <el-form ref="reviseUserFormRef" :model="reviseUserForm" status-icon label-width="70px" :rules="reviseUserRules">
         <!-- 用户名 -->
         <el-form-item label="用户名" prop="roleName">
@@ -89,7 +89,7 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="reviseUserDialogVisible = false">取 消</el-button>
+        <el-button @click="reviseUserDialogClosed">取 消</el-button>
         <el-button type="primary" @click="revieseUserInfo">确 定</el-button>
       </span>
     </el-dialog>
@@ -132,12 +132,14 @@ export default {
     this.getRolesList()
   },
   methods: {
+    fun() {
+
+    },
     // 获得所有的权限列表
     async getRolesList() {
       const { data: res } = await this.$http.get('roles')
       if (res.meta.status !== 200) return this.$message.error('获取失败')
       this.rolesList = res.data
-      console.log('🚀 ~ file: rights.vue ~ line 26 ~ getRightsList ~ res.data', res.data)
     },
     async removeUsrById(id) {
       // 删除用户弹出确定框
@@ -164,7 +166,10 @@ export default {
     },
     // 对话框关闭的时候, 重置状态
     reviseUserDialogClosed() {
+      this.reviseUserDialogVisible = false
+
       this.$refs.reviseUserFormRef.resetFields()
+      this.reviseUserForm = {}
     },
     // 修改用户角色信息
     revieseUserInfo(id) {
@@ -241,7 +246,6 @@ export default {
 
     //  关闭权限对话框
     rightDialogClosed() {
-      console.log('dd')
       this.defaultKeys = []
     },
     _getLeafKeys(node, arr) {
