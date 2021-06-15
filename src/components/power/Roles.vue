@@ -44,7 +44,7 @@
         <el-table-column label="操作" width="300px">
           <template slot-scope="scope">
             <el-button type="primary" icon="el-icon-edit" size="mini" @click="updataUserById(scope.row.id)">编辑</el-button>
-            <el-button type="danger" icon="el-icon-detele" size="mini" @click="removeUsrById(scope.row.id)">删除</el-button>
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeUsrById(scope.row.id)">删除</el-button>
             <el-button type="warning" icon="el-icon-star-off" size="mini" @click="showSetRightDialog(scope.row)">分配权限</el-button>
           </template>
         </el-table-column>
@@ -90,7 +90,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="reviseUserDialogClosed">取 消</el-button>
-        <el-button type="primary" @click="revieseUserInfo">确 定</el-button>
+        <el-button type="primary" @click="reviseUserInfo">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -172,7 +172,7 @@ export default {
       this.reviseUserForm = {}
     },
     // 修改用户角色信息
-    revieseUserInfo(id) {
+    reviseUserInfo(id) {
       this.$refs.reviseUserFormRef.validate(async (valid) => {
         if (!valid) return
         const { data: res } = await this.$http.put(`roles/${this.reviseUserForm.roleId}`, this.reviseUserForm)
