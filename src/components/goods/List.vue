@@ -13,16 +13,20 @@
           </el-input>
         </el-col>
         <el-col :span="4">
-          <el-button type="primary" @click="goodsListdialogVisible = true">添加商品</el-button>
+          <el-button type="primary" @click="gotoAddPage">添加商品</el-button>
         </el-col>
       </el-row>
       <el-table :data="goodsListData" border stripe >
         <el-table-column label="#" type="index"></el-table-column>
         <el-table-column label="商品名称" prop="goods_name" height="80px"></el-table-column>
-        <el-table-column label="商品价格(元)" prop="goods_price" width="100px"></el-table-column>
-        <el-table-column label="商品重量" prop="goods_weight" width="100px"></el-table-column>
-        <el-table-column label="创建时间" prop="add_time" width="100px"></el-table-column>
-        <el-table-column label="商品状态" prop="goods_state" width="100px"></el-table-column>
+        <el-table-column label="商品价格(元)" prop="goods_price" width="80px"></el-table-column>
+        <el-table-column label="商品重量" prop="goods_weight" width="80px"></el-table-column>
+        <el-table-column label="创建时间" prop="add_time" width="150px">
+          <template slot-scope="scope">
+            {{scope.row.add_time|dateFormat}}
+          </template>
+        </el-table-column>
+        <el-table-column label="商品状态" prop="goods_state" width="50px"></el-table-column>
         <el-table-column label="操作" width="200px">
           <template slot-scope="scope">
             <el-button type="primary" icon="el-icon-edit"  @click="showEditDialog(scope.row)" size="mini">修改</el-button>
@@ -53,7 +57,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="editUserInfo">确 定</el-button>
+        <el-button type="primary" @click="onSubmitEditGoods">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -68,7 +72,6 @@ export default {
         pagesize: 5
       },
       goodsListData: [],
-      goodsListdialogVisible: false,
       editDialogVisible: false,
       total: 0,
       editForm: {},
@@ -104,7 +107,8 @@ export default {
       this.queryInfo.pagenum = newNum
       this.getGoodsList()
     },
-    showEditDialog() {
+    showEditDialog(row) {
+      this.editForm = Object.assign({}, row)
       this.editDialogVisible = true
     },
     editDialogClosed() {
@@ -132,8 +136,17 @@ export default {
       this.$message.success('删除成功')
       this.getGoodsList()
     },
-    editUserInfo() {
-
+    async onSubmitEditGoods() { // 提交修改商品信息
+      const { data: res } = await this.$http.put(`goods/${this.editForm.goods_id}`, this.editForm)
+      if (res.meta.status !== 200) {
+        return this.$message.error(res.meta.msg)
+      }
+      this.$message.success(res.meta.msg)
+      this.editDialogVisible = false
+      this.getGoodsList()
+    },
+    gotoAddPage() { // 添加商品按钮
+      this.$router.push('/goods/add')
     }
   }
 }
