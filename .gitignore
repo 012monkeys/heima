@@ -3,6 +3,7 @@ node_modules
 /dist
 *.xlsx
 vue_shop_dome
+shop-server
 
 # local env files
 .env.local
