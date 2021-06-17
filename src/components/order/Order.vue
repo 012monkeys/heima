@@ -25,8 +25,10 @@
           </template>
         </el-table-column>
         <el-table-column label="操作">
-            <el-button type="primary" icon="el-icon-edit"  @click="showAddDialog" size="mini"></el-button>
-            <el-button type="success" icon="el-icon-location"  @click="showProgress" size="mini"></el-button>
+          <template slot-scope="scope">
+            <el-button type="primary" icon="el-icon-edit"  @click="showAddDialog(scope)" size="mini"></el-button>
+            <el-button type="success" icon="el-icon-location"  @click="showProgress(scope)" size="mini"></el-button>
+          </template>
         </el-table-column>
       </el-table>
       <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="queryInfo.pagenum" :page-sizes="[5, 10, 15, 20]" :page-size="queryInfo.pagesize" layout="total, sizes, prev, pager, next, jumper" :total="total">
