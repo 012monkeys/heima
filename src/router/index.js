@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Home from '../components/home.vue'
 // import Login from '../components/Login.vue'
 // import Home from '../components/Home.vue'
 // import Welcome from '../components/Welcome.vue'
@@ -15,8 +16,7 @@ import VueRouter from 'vue-router'
 
 // import Login from './components/Login.vue'
 const Login = () => import(/* webpackChunkName: "login_home_welcome" */ '../components/Login.vue')
-// import Home from './components/Home.vue'
-const Home = () => import(/* webpackChunkName: "login_home_welcome" */ '../components/Home.vue')
+// const Home = () => import(/* webpackChunkName: "login_home_welcome" */ '../components/Home.vue')
 // import Welcome from './components/Welcome.vue'
 const Welcome = () => import(/* webpackChunkName: "login_home_welcome" */ '../components/Welcome.vue')
 
