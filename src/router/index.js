@@ -1,52 +1,22 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../components/home.vue'
-// import Login from '../components/Login.vue'
-// import Home from '../components/Home.vue'
-// import Welcome from '../components/Welcome.vue'
-// import Users from '../components/user/Users.vue'
-// import Rights from '../components/power/Rights.vue'
-// import Roles from '../components/power/Roles.vue'
-// import Cate from '../components/goods/Cate.vue'
-// import Params from '../components/goods/Params.vue'
-// import List from '../components/goods/List.vue'
-// import Add from '../components/goods/Add.vue'
-// import Order from '../components/order/Order.vue'
-// import Report from '../components/report/Report.vue'
 
-// import Login from './components/Login.vue'
 const Login = () => import(/* webpackChunkName: "login_home_welcome" */ '../components/Login.vue')
-// const Home = () => import(/* webpackChunkName: "login_home_welcome" */ '../components/Home.vue')
-// import Welcome from './components/Welcome.vue'
+
 const Welcome = () => import(/* webpackChunkName: "login_home_welcome" */ '../components/Welcome.vue')
-
-// import Users from './components/user/Users.vue'
 const Users = () => import(/* webpackChunkName: "Users_Rights_Roles" */ '../components/user/Users.vue')
-// import Rights from './components/power/Rights.vue'
 const Rights = () => import(/* webpackChunkName: "Users_Rights_Roles" */ '../components/power/Rights.vue')
-// import Roles from './components/power/Roles.vue'
 const Roles = () => import(/* webpackChunkName: "Users_Rights_Roles" */ '../components/power/Roles.vue')
-
-// import Cate from './components/goods/Cate.vue'
 const Cate = () => import(/* webpackChunkName: "Cate_Params" */ '../components/goods/Cate.vue')
-// import Params from './components/goods/Params.vue'
 const Params = () => import(/* webpackChunkName: "Cate_Params" */ '../components/goods/Params.vue')
-
-// import GoodsList from './components/goods/List.vue'
 const List = () => import(/* webpackChunkName: "GoodsList_Add" */ '../components/goods/List.vue')
-// import Add from './components/goods/Add.vue'
 const Add = () => import(/* webpackChunkName: "GoodsList_Add" */ '../components/goods/Add.vue')
-
-// import Order from './components/order/Order.vue'
 const Order = () => import(/* webpackChunkName: "Order_Report" */ '../components/order/Order.vue')
-// import Report from './components/report/Report.vue'
 const Report = () => import(/* webpackChunkName: "Order_Report" */ '../components/report/Report.vue')
 
 Vue.use(VueRouter)
-
-const routes = [
-  { path: '/', redirect: '/login' },
-  { path: '/login', component: Login },
+export const adminRoutes = [
   {
     path: '/home',
     component: Home,
@@ -63,24 +33,65 @@ const routes = [
       { path: '/orders', component: Order },
       { path: '/reports', component: Report }
     ]
-  }
+  },
+  { path: '*', redirect: '/404' }
 ]
 
-const router = new VueRouter({
-  routes
-})
+export const editRoutes = [
+  {
+    path: '/home',
+    component: Home,
+    redirect: '/welcome',
+    children: [
+      { path: '/welcome', component: Welcome },
+      { path: '/categories', component: Cate },
+      { path: '/params', component: Params },
+      { path: '/goods', component: List },
+      { path: '/goods/add', component: Add },
+      { path: '/orders', component: Order },
+      { path: '/reports', component: Report }
+    ]
+  },
+  { path: '*', redirect: '/404' }
+]
+export const constantRoutes = [
+  { path: '/', redirect: '/home' },
+  { path: '/login', component: Login },
+  {
+    path: '/redirect/:path(.*)',
+    name: 'redirect',
+    component: () => import(/* webpackChunkName: "baseUse" */ '../views/redirect.vue')
+  },
+  {
+    path: '/home',
+    component: Home,
+    redirect: '/welcome',
+    children: [
+      { path: '/orders', component: Order },
+      { path: '/welcome', component: Welcome },
+      { path: '/reports', component: Report }
+    ]
+  },
+  { path: '/404', component: () => import('../views/404.vue') }
+]
 
-// 路由导航守卫访问页面权限
-router.beforeEach((to, from, next) => {
-  if (to.path === '/login') {
-    return next()
-  }
-  // 获得token
-  const tokenStr = window.sessionStorage.getItem('token')
-  if (!tokenStr) {
-    return next('/login')
-  }
-  next()
-})
+function createRouter() {
+  return new VueRouter({
+    // mode: 'history', // require service support
+    routes: constantRoutes
+  })
+}
+const router = createRouter() // 创建路由
+export function resetRouter() { // 重置路由
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher // reset router
+}
+
+// 解决Vue-Router升级导致的Uncaught(in promise) navigation guard问题
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location, onResolve, onReject) {
+  if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+  return originalPush.call(this, location).catch(err => err)
+}
 
 export default router

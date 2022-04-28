@@ -1,7 +1,24 @@
+'use strict'
+const defaultSettings = require('./src/setting.js')
+const path = require('path')
+const name = defaultSettings.title || 'vue control goods'
+function resolve(dir) {
+  return path.join(__dirname, dir)
+}
 module.exports = {
   devServer: {
     open: true,
     port: 8877
+  },
+  configureWebpack: {
+    // provide the app's title in webpack's name field, so that
+    // it can be accessed in index.html to inject the correct title.
+    name: name,
+    resolve: {
+      alias: {
+        '@': resolve('src')
+      }
+    }
   },
   chainWebpack: config => {
     // 发布模式

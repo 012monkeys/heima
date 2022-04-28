@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { adminMeun, editMeun } from '../mock/role.js'
 export default {
   data() {
     return {
@@ -53,20 +54,28 @@ export default {
     }
   },
   created() {
+    console.log(this.$router.matcher.getRoutes())
     this.getMenuList()
     this.activePath = window.sessionStorage.getItem('activePath')
   },
   methods: {
-    logout() {
+    async logout() {
       // 退出登录
-      window.sessionStorage.clear()
+      await this.$store.dispatch('logout')
       this.$router.push('/login')
     },
     async getMenuList() {
       // 获得控制台的选项
-      const { data: res } = await this.$http.get('menus')
-      if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
-      this.menuList = res.data
+      // const { data: res } = await this.$http.get('menus')
+      // if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
+      // this.menuList = res.data
+
+      const role = this.$store.getters.roles[0]
+      if (role === 'admin') {
+        this.menuList = adminMeun
+      } else {
+        this.menuList = editMeun
+      }
     },
     toggleCollapse() {
       this.isCollapse = !this.isCollapse
