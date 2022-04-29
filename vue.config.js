@@ -20,7 +20,9 @@ const externals = { // 不打包文件
   vue: 'Vue',
   'vue-router': 'VueRouter',
   vuex: 'Vuex',
-  axios: 'axios'
+  axios: 'axios',
+  lodash: '_',
+  echarts: 'echarts'
 }
 module.exports = {
   devServer: {
