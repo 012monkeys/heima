@@ -3,7 +3,7 @@ import App from '@/App.vue'
 import treeTable from 'vue-table-with-tree-grid'
 import VueQuillEditor from 'vue-quill-editor' // 导入富文本编辑器
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
+import 'element-ui/lib/theme-chalk/index.css' // 上线时, 可以注释掉
 
 import store from './store'
 import router from './router'

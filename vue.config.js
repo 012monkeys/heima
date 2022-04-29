@@ -7,12 +7,23 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 const cdn = {
-  css: [],
+  css: [
+    'https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.css',
+    'https://cdn.staticfile.org/quill/1.3.4/quill.core.min.css',
+    'https://cdn.staticfile.org/quill/1.3.4/quill.snow.min.css',
+    'https://cdn.staticfile.org/quill/1.3.4/quill.bubble.min.css',
+    'https://cdn.staticfile.org/element-ui/2.15.2/theme-chalk/index.css'
+  ],
   js: [
     'https://cdn.bootcss.com/vue/2.6.11/vue.min.js',
     'https://cdn.bootcss.com/vue-router/3.0.2/vue-router.min.js',
     'https://cdn.jsdelivr.net/npm/vuex@3.1.2/dist/vuex.min.js',
-    'https://cdn.bootcss.com/axios/0.19.0-beta.1/axios.min.js'
+    'https://cdn.staticfile.org/axios/0.21.1/axios.min.js',
+    'https://cdn.staticfile.org/lodash.js/4.17.11/lodash.min.js',
+    'https://cdn.staticfile.org/echarts/5.1.2/echarts.min.js',
+    'https://cdn.staticfile.org/nprogress/0.2.0/nprogress.min.js',
+    'https://cdn.staticfile.org/quill/1.3.4/quill.min.js',
+    'https://cdn.staticfile.org/element-ui/2.15.2/index.js'
   ]
 }
 const externals = { // 不打包文件
@@ -22,7 +33,10 @@ const externals = { // 不打包文件
   vuex: 'Vuex',
   axios: 'axios',
   lodash: '_',
-  echarts: 'echarts'
+  echarts: 'echarts',
+  'element-ui': 'ELEMENT',
+  nprogress: 'NProgress'
+  // 'vue-quill-editor': 'VueQuillEditor' cdn失效
 }
 module.exports = {
   devServer: {
