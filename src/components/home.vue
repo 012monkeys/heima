@@ -54,7 +54,6 @@ export default {
     }
   },
   created() {
-    console.log(this.$router.matcher.getRoutes())
     this.getMenuList()
     this.activePath = window.sessionStorage.getItem('activePath')
   },
@@ -62,7 +61,7 @@ export default {
     async logout() {
       // 退出登录
       await this.$store.dispatch('logout')
-      this.$router.push('/login')
+      this.$router.push({ path: '/login' })
     },
     async getMenuList() {
       // 获得控制台的选项

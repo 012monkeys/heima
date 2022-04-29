@@ -2,11 +2,10 @@ import axios from 'axios'
 import store from '@/store'
 import get from 'lodash/get'
 import { Message } from 'element-ui'
-
+const testURL = 'http://127.0.0.1:8888/api/private/v1/'
 const service = axios.create({
-  baseURL: 'http://127.0.0.1:8888/api/private/v1/', // url = base url + request url
-  // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 5000 // request timeout
+  baseURL: testURL,
+  timeout: 5000
 })
 
 service.interceptors.request.use(
